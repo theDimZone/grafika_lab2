@@ -83,6 +83,7 @@
   <ItemGroup>
     <ClInclude Include="angle.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="GUItextRectangle.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="MyOGL.h" />
     <ClInclude Include="MyVector3d.h" />
@@ -96,6 +97,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GUItextRectangle.cpp" />
     <ClCompile Include="MyOGL.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="OpenGLrememberProj.cpp" />

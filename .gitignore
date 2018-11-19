@@ -2,6 +2,10 @@
 Thumbs.db
 ehthumbs.db
 
+Debug/
+OpenGLrememberProj/Debug/
+
+
 # Folder config file
 Desktop.ini
 
@@ -13,6 +17,12 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+
+*.db
+*.ipch
+*.opendb
+*.git
+*.vs
 
 # Windows shortcuts
 *.lnk

@@ -1,5 +1,8 @@
 #include "Render.h"
 
+#include <sstream>
+#include <iostream>
+
 #include <windows.h>
 #include <GL\GL.h>
 #include <GL\GLU.h>
@@ -10,7 +13,7 @@
 #include "Light.h"
 #include "Primitives.h"
 
-
+#include "GUItextRectangle.h"
 
 bool textureMode = true;
 bool lightMode = true;
@@ -226,6 +229,7 @@ void keyUpEvent(OpenGL *ogl, int key)
 
 
 
+GLuint texId;
 
 //выполняется перед первым рендером
 void initRender(OpenGL *ogl)
@@ -252,7 +256,7 @@ void initRender(OpenGL *ogl)
 	OpenGL::RGBtoChar(texarray, texW, texH, &texCharArray);
 
 	
-	GLuint texId;
+	
 	//генерируем ИД для текстуры
 	glGenTextures(1, &texId);
 	//биндим айдишник, все что будет происходить с текстурой, будте происходить по этому ИД
@@ -293,6 +297,9 @@ void initRender(OpenGL *ogl)
 	// по умолчанию (0.2, 0.2, 0.2, 1.0)
 
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 0);
+
+	camera.fi1 = -1.3;
+	camera.fi2 = 0.8;
 }
 
 
@@ -300,10 +307,10 @@ void initRender(OpenGL *ogl)
 
 
 void Render(OpenGL *ogl)
-{       	
-	
-	
-	
+{
+
+
+
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);
 
@@ -332,11 +339,11 @@ void Render(OpenGL *ogl)
 	//дифузная
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
 	//зеркальная
-	glMaterialfv(GL_FRONT, GL_SPECULAR, spec);\
-	//размер блика
-	glMaterialf(GL_FRONT, GL_SHININESS, sh);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, spec); \
+		//размер блика
+		glMaterialf(GL_FRONT, GL_SHININESS, sh);
 
-    //чтоб было красиво, без квадратиков (сглаживание освещения)
+	//чтоб было красиво, без квадратиков (сглаживание освещения)
 	glShadeModel(GL_SMOOTH);
 	//===================================
 	//Прогать тут  
@@ -348,8 +355,9 @@ void Render(OpenGL *ogl)
 	double C[2] = { 4, 4 };
 	double D[2] = { -4, 4 };
 
-	
-	
+	glBindTexture(GL_TEXTURE_2D, texId);
+
+	glColor3d(0.6, 0.6, 0.6);
 	glBegin(GL_QUADS);
 
 	glNormal3d(0, 0, 1);
@@ -364,18 +372,48 @@ void Render(OpenGL *ogl)
 
 	glEnd();
 	//конец рисования квадратика станкина
-    
+
+
+   //Сообщение вверху экрана
+
 	
-	//текст сообщения вверху слева, если надоест - закоментировать, или заменить =)
-	char c[250];  //максимальная длина сообщения
-	sprintf_s(c, "(T)Текстуры - %d\n(L)Свет - %d\n\nУправление светом:\n"
-		"G - перемещение в горизонтальной плоскости,\nG+ЛКМ+перемещение по вертикальной линии\n"
-		"R - установить камеру и свет в начальное положение\n"
-		"F - переместить свет в точку камеры", textureMode, lightMode);
-	ogl->message = std::string(c);
+	glMatrixMode(GL_PROJECTION);	//Делаем активной матрицу проекций. 
+	                                //(всек матричные операции, будут ее видоизменять.)
+	glPushMatrix();   //сохраняем текущую матрицу проецирования (которая описывает перспективную проекцию) в стек 				    
+	glLoadIdentity();	  //Загружаем единичную матрицу
+	glOrtho(0, ogl->getWidth(), 0, ogl->getHeight(), 0, 1);	 //врубаем режим ортогональной проекции
+
+	glMatrixMode(GL_MODELVIEW);		//переключаемся на модел-вью матрицу
+	glPushMatrix();			  //сохраняем текущую матрицу в стек (положение камеры, фактически)
+	glLoadIdentity();		  //сбрасываем ее в дефолт
+
+	glDisable(GL_LIGHTING);
 
 
 
+	GuiTextRectangle rec;		   //классик моего авторства для удобной работы с рендером текста.
+	rec.setSize(300, 150);
+	rec.setPosition(10, ogl->getHeight() - 150 - 10);
 
-}   //конец тела функции
 
+	std::stringstream ss;
+	ss << "T - вкл/выкл текстур" << std::endl;
+	ss << "L - вкл/выкл освещение" << std::endl;
+	ss << "F - Свет из камеры" << std::endl;
+	ss << "G - двигать свет по горизонтали" << std::endl;
+	ss << "G+ЛКМ двигать свет по вертекали" << std::endl;
+	ss << "Коорд. света: (" << light.pos.X() << ", " << light.pos.Y() << ", " << light.pos.Z() << ")" << std::endl;
+	ss << "Коорд. камеры: (" << camera.pos.X() << ", " << camera.pos.Y() << ", " << camera.pos.Z() << ")" << std::endl;
+	ss << "Параметры камеры: R="  << camera.camDist << ", fi1=" << camera.fi1 << ", fi2=" << camera.fi2 << std::endl;
+	
+	rec.setText(ss.str().c_str());
+	rec.Draw();
+
+	glMatrixMode(GL_PROJECTION);	  //восстанавливаем матрицы проекции и модел-вью обратьно из стека.
+	glPopMatrix();
+
+
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+
+}
