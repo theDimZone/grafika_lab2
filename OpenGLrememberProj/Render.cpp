@@ -1,4 +1,4 @@
-#include "Render.h"
+п»ї#include "Render.h"
 
 #include <sstream>
 #include <iostream>
@@ -18,17 +18,17 @@
 bool textureMode = true;
 bool lightMode = true;
 
-//класс для настройки камеры
+//РєР»Р°СЃСЃ РґР»СЏ РЅР°СЃС‚СЂРѕР№РєРё РєР°РјРµСЂС‹
 class CustomCamera : public Camera
 {
 public:
-	//дистанция камеры
+	//РґРёСЃС‚Р°РЅС†РёСЏ РєР°РјРµСЂС‹
 	double camDist;
-	//углы поворота камеры
+	//СѓРіР»С‹ РїРѕРІРѕСЂРѕС‚Р° РєР°РјРµСЂС‹
 	double fi1, fi2;
 
 	
-	//значния масеры по умолчанию
+	//Р·РЅР°С‡РЅРёСЏ РјР°СЃРµСЂС‹ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
 	CustomCamera()
 	{
 		camDist = 15;
@@ -37,10 +37,10 @@ public:
 	}
 
 	
-	//считает позицию камеры, исходя из углов поворота, вызывается движком
+	//СЃС‡РёС‚Р°РµС‚ РїРѕР·РёС†РёСЋ РєР°РјРµСЂС‹, РёСЃС…РѕРґСЏ РёР· СѓРіР»РѕРІ РїРѕРІРѕСЂРѕС‚Р°, РІС‹Р·С‹РІР°РµС‚СЃСЏ РґРІРёР¶РєРѕРј
 	void SetUpCamera()
 	{
-		//отвечает за поворот камеры мышкой
+		//РѕС‚РІРµС‡Р°РµС‚ Р·Р° РїРѕРІРѕСЂРѕС‚ РєР°РјРµСЂС‹ РјС‹С€РєРѕР№
 		lookPoint.setCoords(0, 0, 0);
 
 		pos.setCoords(camDist*cos(fi2)*cos(fi1),
@@ -57,27 +57,27 @@ public:
 
 	void CustomCamera::LookAt()
 	{
-		//функция настройки камеры
+		//С„СѓРЅРєС†РёСЏ РЅР°СЃС‚СЂРѕР№РєРё РєР°РјРµСЂС‹
 		gluLookAt(pos.X(), pos.Y(), pos.Z(), lookPoint.X(), lookPoint.Y(), lookPoint.Z(), normal.X(), normal.Y(), normal.Z());
 	}
 
 
 
-}  camera;   //создаем объект камеры
+}  camera;   //СЃРѕР·РґР°РµРј РѕР±СЉРµРєС‚ РєР°РјРµСЂС‹
 
 
-//Класс для настройки света
+//РљР»Р°СЃСЃ РґР»СЏ РЅР°СЃС‚СЂРѕР№РєРё СЃРІРµС‚Р°
 class CustomLight : public Light
 {
 public:
 	CustomLight()
 	{
-		//начальная позиция света
+		//РЅР°С‡Р°Р»СЊРЅР°СЏ РїРѕР·РёС†РёСЏ СЃРІРµС‚Р°
 		pos = Vector3(1, 1, 3);
 	}
 
 	
-	//рисует сферу и линии под источником света, вызывается движком
+	//СЂРёСЃСѓРµС‚ СЃС„РµСЂСѓ Рё Р»РёРЅРёРё РїРѕРґ РёСЃС‚РѕС‡РЅРёРєРѕРј СЃРІРµС‚Р°, РІС‹Р·С‹РІР°РµС‚СЃСЏ РґРІРёР¶РєРѕРј
 	void  DrawLightGhismo()
 	{
 		glDisable(GL_LIGHTING);
@@ -92,13 +92,13 @@ public:
 		if (OpenGL::isKeyPressed('G'))
 		{
 			glColor3d(0, 0, 0);
-			//линия от источника света до окружности
+			//Р»РёРЅРёСЏ РѕС‚ РёСЃС‚РѕС‡РЅРёРєР° СЃРІРµС‚Р° РґРѕ РѕРєСЂСѓР¶РЅРѕСЃС‚Рё
 			glBegin(GL_LINES);
 			glVertex3d(pos.X(), pos.Y(), pos.Z());
 			glVertex3d(pos.X(), pos.Y(), 0);
 			glEnd();
 
-			//рисуем окруность
+			//СЂРёСЃСѓРµРј РѕРєСЂСѓРЅРѕСЃС‚СЊ
 			Circle c;
 			c.pos.setCoords(pos.X(), pos.Y(), 0);
 			c.scale = c.scale*1.5;
@@ -114,26 +114,26 @@ public:
 		GLfloat spec[] = { .7, .7, .7, 0 };
 		GLfloat position[] = { pos.X(), pos.Y(), pos.Z(), 1. };
 
-		// параметры источника света
+		// РїР°СЂР°РјРµС‚СЂС‹ РёСЃС‚РѕС‡РЅРёРєР° СЃРІРµС‚Р°
 		glLightfv(GL_LIGHT0, GL_POSITION, position);
-		// характеристики излучаемого света
-		// фоновое освещение (рассеянный свет)
+		// С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё РёР·Р»СѓС‡Р°РµРјРѕРіРѕ СЃРІРµС‚Р°
+		// С„РѕРЅРѕРІРѕРµ РѕСЃРІРµС‰РµРЅРёРµ (СЂР°СЃСЃРµСЏРЅРЅС‹Р№ СЃРІРµС‚)
 		glLightfv(GL_LIGHT0, GL_AMBIENT, amb);
-		// диффузная составляющая света
+		// РґРёС„С„СѓР·РЅР°СЏ СЃРѕСЃС‚Р°РІР»СЏСЋС‰Р°СЏ СЃРІРµС‚Р°
 		glLightfv(GL_LIGHT0, GL_DIFFUSE, dif);
-		// зеркально отражаемая составляющая света
+		// Р·РµСЂРєР°Р»СЊРЅРѕ РѕС‚СЂР°Р¶Р°РµРјР°СЏ СЃРѕСЃС‚Р°РІР»СЏСЋС‰Р°СЏ СЃРІРµС‚Р°
 		glLightfv(GL_LIGHT0, GL_SPECULAR, spec);
 
 		glEnable(GL_LIGHT0);
 	}
 
 
-} light;  //создаем источник света
+} light;  //СЃРѕР·РґР°РµРј РёСЃС‚РѕС‡РЅРёРє СЃРІРµС‚Р°
 
 
 
 
-//старые координаты мыши
+//СЃС‚Р°СЂС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹ РјС‹С€Рё
 int mouseX = 0, mouseY = 0;
 
 void mouseEvent(OpenGL *ogl, int mX, int mY)
@@ -143,7 +143,7 @@ void mouseEvent(OpenGL *ogl, int mX, int mY)
 	mouseX = mX;
 	mouseY = mY;
 
-	//меняем углы камеры при нажатой левой кнопке мыши
+	//РјРµРЅСЏРµРј СѓРіР»С‹ РєР°РјРµСЂС‹ РїСЂРё РЅР°Р¶Р°С‚РѕР№ Р»РµРІРѕР№ РєРЅРѕРїРєРµ РјС‹С€Рё
 	if (OpenGL::isKeyPressed(VK_RBUTTON))
 	{
 		camera.fi1 += 0.01*dx;
@@ -151,7 +151,7 @@ void mouseEvent(OpenGL *ogl, int mX, int mY)
 	}
 
 	
-	//двигаем свет по плоскости, в точку где мышь
+	//РґРІРёРіР°РµРј СЃРІРµС‚ РїРѕ РїР»РѕСЃРєРѕСЃС‚Рё, РІ С‚РѕС‡РєСѓ РіРґРµ РјС‹С€СЊ
 	if (OpenGL::isKeyPressed('G') && !OpenGL::isKeyPressed(VK_LBUTTON))
 	{
 		LPPOINT POINT = new tagPOINT();
@@ -231,25 +231,25 @@ void keyUpEvent(OpenGL *ogl, int key)
 
 GLuint texId;
 
-//выполняется перед первым рендером
+//РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ РїРµСЂРµРґ РїРµСЂРІС‹Рј СЂРµРЅРґРµСЂРѕРј
 void initRender(OpenGL *ogl)
 {
-	//настройка текстур
+	//РЅР°СЃС‚СЂРѕР№РєР° С‚РµРєСЃС‚СѓСЂ
 
-	//4 байта на хранение пикселя
+	//4 Р±Р°Р№С‚Р° РЅР° С…СЂР°РЅРµРЅРёРµ РїРёРєСЃРµР»СЏ
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 
-	//настройка режима наложения текстур
+	//РЅР°СЃС‚СЂРѕР№РєР° СЂРµР¶РёРјР° РЅР°Р»РѕР¶РµРЅРёСЏ С‚РµРєСЃС‚СѓСЂ
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-	//включаем текстуры
+	//РІРєР»СЋС‡Р°РµРј С‚РµРєСЃС‚СѓСЂС‹
 	glEnable(GL_TEXTURE_2D);
 	
 
-	//массив трехбайтных элементов  (R G B)
+	//РјР°СЃСЃРёРІ С‚СЂРµС…Р±Р°Р№С‚РЅС‹С… СЌР»РµРјРµРЅС‚РѕРІ  (R G B)
 	RGBTRIPLE *texarray;
 
-	//массив символов, (высота*ширина*4      4, потомучто   выше, мы указали использовать по 4 байта на пиксель текстуры - R G B A)
+	//РјР°СЃСЃРёРІ СЃРёРјРІРѕР»РѕРІ, (РІС‹СЃРѕС‚Р°*С€РёСЂРёРЅР°*4      4, РїРѕС‚РѕРјСѓС‡С‚Рѕ   РІС‹С€Рµ, РјС‹ СѓРєР°Р·Р°Р»Рё РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РїРѕ 4 Р±Р°Р№С‚Р° РЅР° РїРёРєСЃРµР»СЊ С‚РµРєСЃС‚СѓСЂС‹ - R G B A)
 	char *texCharArray;
 	int texW, texH;
 	OpenGL::LoadBMP("texture.bmp", &texW, &texH, &texarray);
@@ -257,44 +257,44 @@ void initRender(OpenGL *ogl)
 
 	
 	
-	//генерируем ИД для текстуры
+	//РіРµРЅРµСЂРёСЂСѓРµРј РР” РґР»СЏ С‚РµРєСЃС‚СѓСЂС‹
 	glGenTextures(1, &texId);
-	//биндим айдишник, все что будет происходить с текстурой, будте происходить по этому ИД
+	//Р±РёРЅРґРёРј Р°Р№РґРёС€РЅРёРє, РІСЃРµ С‡С‚Рѕ Р±СѓРґРµС‚ РїСЂРѕРёСЃС…РѕРґРёС‚СЊ СЃ С‚РµРєСЃС‚СѓСЂРѕР№, Р±СѓРґС‚Рµ РїСЂРѕРёСЃС…РѕРґРёС‚СЊ РїРѕ СЌС‚РѕРјСѓ РР”
 	glBindTexture(GL_TEXTURE_2D, texId);
 
-	//загружаем текстуру в видеопямять, в оперативке нам больше  она не нужна
+	//Р·Р°РіСЂСѓР¶Р°РµРј С‚РµРєСЃС‚СѓСЂСѓ РІ РІРёРґРµРѕРїСЏРјСЏС‚СЊ, РІ РѕРїРµСЂР°С‚РёРІРєРµ РЅР°Рј Р±РѕР»СЊС€Рµ  РѕРЅР° РЅРµ РЅСѓР¶РЅР°
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texW, texH, 0, GL_RGBA, GL_UNSIGNED_BYTE, texCharArray);
 
-	//отчистка памяти
+	//РѕС‚С‡РёСЃС‚РєР° РїР°РјСЏС‚Рё
 	free(texCharArray);
 	free(texarray);
 
-	//наводим шмон
+	//РЅР°РІРѕРґРёРј С€РјРѕРЅ
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST); 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
 
-	//камеру и свет привязываем к "движку"
+	//РєР°РјРµСЂСѓ Рё СЃРІРµС‚ РїСЂРёРІСЏР·С‹РІР°РµРј Рє "РґРІРёР¶РєСѓ"
 	ogl->mainCamera = &camera;
 	ogl->mainLight = &light;
 
-	// нормализация нормалей : их длины будет равна 1
+	// РЅРѕСЂРјР°Р»РёР·Р°С†РёСЏ РЅРѕСЂРјР°Р»РµР№ : РёС… РґР»РёРЅС‹ Р±СѓРґРµС‚ СЂР°РІРЅР° 1
 	glEnable(GL_NORMALIZE);
 
-	// устранение ступенчатости для линий
+	// СѓСЃС‚СЂР°РЅРµРЅРёРµ СЃС‚СѓРїРµРЅС‡Р°С‚РѕСЃС‚Рё РґР»СЏ Р»РёРЅРёР№
 	glEnable(GL_LINE_SMOOTH); 
 
 
-	//   задать параметры освещения
-	//  параметр GL_LIGHT_MODEL_TWO_SIDE - 
-	//                0 -  лицевые и изнаночные рисуются одинаково(по умолчанию), 
-	//                1 - лицевые и изнаночные обрабатываются разными режимами       
-	//                соответственно лицевым и изнаночным свойствам материалов.    
-	//  параметр GL_LIGHT_MODEL_AMBIENT - задать фоновое освещение, 
-	//                не зависящее от сточников
-	// по умолчанию (0.2, 0.2, 0.2, 1.0)
+	//   Р·Р°РґР°С‚СЊ РїР°СЂР°РјРµС‚СЂС‹ РѕСЃРІРµС‰РµРЅРёСЏ
+	//  РїР°СЂР°РјРµС‚СЂ GL_LIGHT_MODEL_TWO_SIDE - 
+	//                0 -  Р»РёС†РµРІС‹Рµ Рё РёР·РЅР°РЅРѕС‡РЅС‹Рµ СЂРёСЃСѓСЋС‚СЃСЏ РѕРґРёРЅР°РєРѕРІРѕ(РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ), 
+	//                1 - Р»РёС†РµРІС‹Рµ Рё РёР·РЅР°РЅРѕС‡РЅС‹Рµ РѕР±СЂР°Р±Р°С‚С‹РІР°СЋС‚СЃСЏ СЂР°Р·РЅС‹РјРё СЂРµР¶РёРјР°РјРё       
+	//                СЃРѕРѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕ Р»РёС†РµРІС‹Рј Рё РёР·РЅР°РЅРѕС‡РЅС‹Рј СЃРІРѕР№СЃС‚РІР°Рј РјР°С‚РµСЂРёР°Р»РѕРІ.    
+	//  РїР°СЂР°РјРµС‚СЂ GL_LIGHT_MODEL_AMBIENT - Р·Р°РґР°С‚СЊ С„РѕРЅРѕРІРѕРµ РѕСЃРІРµС‰РµРЅРёРµ, 
+	//                РЅРµ Р·Р°РІРёСЃСЏС‰РµРµ РѕС‚ СЃС‚РѕС‡РЅРёРєРѕРІ
+	// РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ (0.2, 0.2, 0.2, 1.0)
 
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 0);
 
@@ -303,6 +303,210 @@ void initRender(OpenGL *ogl)
 }
 
 
+void Figure() {
+	// Г¤Г­Г®
+	glBegin(GL_TRIANGLES);
+	glColor3d(0.2, 0.7, 0.7);
+
+	//glVertex3d(14, 8, 1);
+	//glVertex3d(10, 3, 1);
+	//glVertex3d(8, 7, 1);
+	glNormal3d(0, 0, -1);
+	glVertex3d(8, 7, 1);
+	glVertex3d(3, 1, 1);
+	glVertex3d(4, 8, 1);
+
+	glNormal3d(0, 0, -1);
+	glVertex3d(4, 8, 1);
+	glVertex3d(-1, 5, 1);
+	glVertex3d(3, 11, 1);
+	glEnd();
+	glBegin(GL_POLYGON);
+	glNormal3d(0, 0, -1);
+
+	glVertex3d(14, 8, 1);
+	glVertex3d(8, 7, 1);
+	glVertex3d(4, 8, 1);
+	glVertex3d(3, 11, 1);
+	glVertex3d(14, 8, 1);
+	glEnd();
+
+	// Г°ГҐГЎГ°Г 
+	glBegin(GL_QUAD_STRIP);
+	glColor3d(0.1, 0.2, 0.9);
+
+	//glVertex3d(14, 8, 1);
+	//glVertex3d(14, 8, 3);
+
+	glNormal3d(-1, -0.5, 0);
+	glVertex3d(10, 3, 1);
+	glVertex3d(10, 3, 3);
+	glVertex3d(8, 7, 1);
+	glVertex3d(8, 7, 3);
+
+	glNormal3d(1, -0.8334006515645, 0);
+	glVertex3d(8, 7, 1);
+	glVertex3d(8, 7, 3);
+	glVertex3d(3, 1, 1);
+	glVertex3d(3, 1, 3);
+
+	glNormal3d(-1, 0.1428523992638, 0);
+	glVertex3d(3, 1, 1);
+	glVertex3d(3, 1, 3);
+	glVertex3d(4, 8, 1);
+	glVertex3d(4, 8, 3);
+
+	glNormal3d(0.6, -1, 0);
+	glVertex3d(4, 8, 1);
+	glVertex3d(4, 8, 3);
+	glVertex3d(-1, 5, 1);
+	glVertex3d(-1, 5, 3);
+
+	glNormal3d(-1, 0.6670385088783, 0);
+	glVertex3d(-1, 5, 1);
+	glVertex3d(-1, 5, 3);
+	glVertex3d(3, 11, 1);
+	glVertex3d(3, 11, 3);
+	//glVertex3d(14, 8, 1);
+	//glVertex3d(14, 8, 3);
+	glEnd();
+
+	// ГЄГ°Г»ГёГ 
+	glBegin(GL_TRIANGLES);
+	glColor3d(0.2, 0.7, 0.7);
+
+	//glVertex3d(14, 8, 3);
+	//glVertex3d(10, 3, 3);
+	//glVertex3d(8, 7, 3);
+
+	glNormal3d(0, 0, 1);
+	glVertex3d(8, 7, 3);
+	glVertex3d(3, 1, 3);
+	glVertex3d(4, 8, 3);
+
+	glNormal3d(0, 0, 1);
+	glVertex3d(4, 8, 3);
+	glVertex3d(-1, 5, 3);
+	glVertex3d(3, 11, 3);
+	glEnd();
+	glBegin(GL_POLYGON);
+
+	glNormal3d(0, 0, 1);
+	glVertex3d(14, 8, 3);
+	glVertex3d(8, 7, 3);
+	glVertex3d(4, 8, 3);
+	glVertex3d(3, 11, 3);
+	glVertex3d(14, 8, 3);
+	glEnd();
+}
+
+
+void TriFanInner(std::string type) {
+	double centre_x = 8;
+	double centre_y = 7;
+	double centre_z = type == "upper" ? 3 : 1;
+
+	double radius = 4.191792;
+
+	double x = 0;
+	double y = 0;
+
+	glBegin(GL_TRIANGLE_FAN);
+	glColor3d(0.2, 0.7, 0.7);
+
+	glNormal3d(0, 0, type == "upper" ? 1 : -1);
+	glVertex3d(centre_x, centre_y, centre_z);
+
+	for (float i = 1.595; i <= PI * 2 - 2.95; i += 0.001) {
+		x = radius * cos(i);
+		y = radius * sin(i);
+
+		glNormal3d(0, 0, type == "upper" ? 1 : -1);
+		//glVertex3d(centre_x + x + 7.1, centre_y + y - 3.2, centre_z);
+		glVertex3d(x + 14.1, y + 3.81, centre_z);
+	}
+	glEnd();
+}
+
+void PolyFigureInner() {
+	double centre_x = 8;
+	double centre_y = 7;
+
+	double radius = 4.191792;
+
+	double x = 0;
+	double y = 0;
+
+	glBegin(GL_QUAD_STRIP);
+	glColor3d(0.1, 0.2, 0.9);
+
+	//glVertex3d(centre_x, centre_y, centre_z);
+
+	for (float i = 1.595; i <= PI * 2 - 2.96; i += 0.001) {
+		x = radius * cos(i);
+		y = radius * sin(i);
+
+		glNormal3d(-x, -y, 0); // РІСЂРѕРґРµ РЅРѕСЂРј
+		//glVertex3d(centre_x + x + 7.1, centre_y + y - 3.2, centre_z);
+		glVertex3d(x + 14.1, y + 3.81, 3);
+		glVertex3d(x + 14.1, y + 3.81, 1);
+	}
+	glEnd();
+}
+
+void PolyFigureOuter() {
+	double centre_x = 8.5;
+	double centre_y = 9.5;
+	double centre_z = 3;
+
+	double radius = 5.7;
+
+	double x = 0;
+	double y = 0;
+
+	glBegin(GL_QUAD_STRIP);
+	glColor3d(0.1, 0.2, 0.9);
+	//glVertex3d(14, 8, 3);
+	//glVertex3d(14, 8, 1);
+
+	for (float i = -0.27; i <= PI - 0.25; i += 0.001) {
+		x = radius * cos(i);
+		y = radius * sin(i);
+
+		glNormal3d(x, y, 0); // РІСЂРѕРґРµ РЅРѕСЂРј
+		glVertex3d(centre_x + x, centre_y + y, 3);
+		glVertex3d(centre_x + x, centre_y + y, 1);
+	}
+	glEnd();
+
+}
+
+
+
+void TriFanOuter(std::string type) {
+	double centre_x = 8.5;
+	double centre_y = 9.5;
+	double centre_z = type == "upper" ? 3 : 1;
+
+	double radius = 5.7;
+
+	double x = 0;
+	double y = 0;
+
+	glBegin(GL_TRIANGLE_FAN);
+	glColor3d(0.2, 0.7, 0.7);
+
+	//glVertex3d(centre_x, centre_y, centre_z);
+
+	for (float i = -0.27; i <= PI - 0.25; i += 0.001) {
+		x = radius * cos(i);
+		y = radius * sin(i);
+
+		glNormal3d(0, 0, type == "upper" ? 1 : -1);
+		glVertex3d(centre_x + x, centre_y + y, centre_z);
+	}
+	glEnd();
+}
 
 
 
@@ -322,34 +526,44 @@ void Render(OpenGL *ogl)
 		glEnable(GL_LIGHTING);
 
 
-	//альфаналожение
+	//Р°Р»СЊС„Р°РЅР°Р»РѕР¶РµРЅРёРµ
 	//glEnable(GL_BLEND);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
-	//настройка материала
+	//РЅР°СЃС‚СЂРѕР№РєР° РјР°С‚РµСЂРёР°Р»Р°
 	GLfloat amb[] = { 0.2, 0.2, 0.1, 1. };
 	GLfloat dif[] = { 0.4, 0.65, 0.5, 1. };
 	GLfloat spec[] = { 0.9, 0.8, 0.3, 1. };
 	GLfloat sh = 0.1f * 256;
 
 
-	//фоновая
+	//С„РѕРЅРѕРІР°СЏ
 	glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
-	//дифузная
+	//РґРёС„СѓР·РЅР°СЏ
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, dif);
-	//зеркальная
+	//Р·РµСЂРєР°Р»СЊРЅР°СЏ
 	glMaterialfv(GL_FRONT, GL_SPECULAR, spec); \
-		//размер блика
+		//СЂР°Р·РјРµСЂ Р±Р»РёРєР°
 		glMaterialf(GL_FRONT, GL_SHININESS, sh);
 
-	//чтоб было красиво, без квадратиков (сглаживание освещения)
+	//С‡С‚РѕР± Р±С‹Р»Рѕ РєСЂР°СЃРёРІРѕ, Р±РµР· РєРІР°РґСЂР°С‚РёРєРѕРІ (СЃРіР»Р°Р¶РёРІР°РЅРёРµ РѕСЃРІРµС‰РµРЅРёСЏ)
 	glShadeModel(GL_SMOOTH);
 	//===================================
-	//Прогать тут  
+	//РџСЂРѕРіР°С‚СЊ С‚СѓС‚  
+
+	TriFanOuter("upper");
+	TriFanOuter("bottom");
+	PolyFigureOuter();
+
+	TriFanInner("upper");
+	TriFanInner("bottom");
+	PolyFigureInner();
+	Figure();
 
 
-	//Начало рисования квадратика станкина
+	//РќР°С‡Р°Р»Рѕ СЂРёСЃРѕРІР°РЅРёСЏ РєРІР°РґСЂР°С‚РёРєР° СЃС‚Р°РЅРєРёРЅР°
+	/*
 	double A[2] = { -4, -4 };
 	double B[2] = { 4, -4 };
 	double C[2] = { 4, 4 };
@@ -371,45 +585,46 @@ void Render(OpenGL *ogl)
 	glVertex2dv(D);
 
 	glEnd();
-	//конец рисования квадратика станкина
+	*/
+	//РєРѕРЅРµС† СЂРёСЃРѕРІР°РЅРёСЏ РєРІР°РґСЂР°С‚РёРєР° СЃС‚Р°РЅРєРёРЅР°
 
 
-   //Сообщение вверху экрана
+   //РЎРѕРѕР±С‰РµРЅРёРµ РІРІРµСЂС…Сѓ СЌРєСЂР°РЅР°
 
 	
-	glMatrixMode(GL_PROJECTION);	//Делаем активной матрицу проекций. 
-	                                //(всек матричные операции, будут ее видоизменять.)
-	glPushMatrix();   //сохраняем текущую матрицу проецирования (которая описывает перспективную проекцию) в стек 				    
-	glLoadIdentity();	  //Загружаем единичную матрицу
-	glOrtho(0, ogl->getWidth(), 0, ogl->getHeight(), 0, 1);	 //врубаем режим ортогональной проекции
+	glMatrixMode(GL_PROJECTION);	//Р”РµР»Р°РµРј Р°РєС‚РёРІРЅРѕР№ РјР°С‚СЂРёС†Сѓ РїСЂРѕРµРєС†РёР№. 
+	                                //(РІСЃРµРє РјР°С‚СЂРёС‡РЅС‹Рµ РѕРїРµСЂР°С†РёРё, Р±СѓРґСѓС‚ РµРµ РІРёРґРѕРёР·РјРµРЅСЏС‚СЊ.)
+	glPushMatrix();   //СЃРѕС…СЂР°РЅСЏРµРј С‚РµРєСѓС‰СѓСЋ РјР°С‚СЂРёС†Сѓ РїСЂРѕРµС†РёСЂРѕРІР°РЅРёСЏ (РєРѕС‚РѕСЂР°СЏ РѕРїРёСЃС‹РІР°РµС‚ РїРµСЂСЃРїРµРєС‚РёРІРЅСѓСЋ РїСЂРѕРµРєС†РёСЋ) РІ СЃС‚РµРє 				    
+	glLoadIdentity();	  //Р—Р°РіСЂСѓР¶Р°РµРј РµРґРёРЅРёС‡РЅСѓСЋ РјР°С‚СЂРёС†Сѓ
+	glOrtho(0, ogl->getWidth(), 0, ogl->getHeight(), 0, 1);	 //РІСЂСѓР±Р°РµРј СЂРµР¶РёРј РѕСЂС‚РѕРіРѕРЅР°Р»СЊРЅРѕР№ РїСЂРѕРµРєС†РёРё
 
-	glMatrixMode(GL_MODELVIEW);		//переключаемся на модел-вью матрицу
-	glPushMatrix();			  //сохраняем текущую матрицу в стек (положение камеры, фактически)
-	glLoadIdentity();		  //сбрасываем ее в дефолт
+	glMatrixMode(GL_MODELVIEW);		//РїРµСЂРµРєР»СЋС‡Р°РµРјСЃСЏ РЅР° РјРѕРґРµР»-РІСЊСЋ РјР°С‚СЂРёС†Сѓ
+	glPushMatrix();			  //СЃРѕС…СЂР°РЅСЏРµРј С‚РµРєСѓС‰СѓСЋ РјР°С‚СЂРёС†Сѓ РІ СЃС‚РµРє (РїРѕР»РѕР¶РµРЅРёРµ РєР°РјРµСЂС‹, С„Р°РєС‚РёС‡РµСЃРєРё)
+	glLoadIdentity();		  //СЃР±СЂР°СЃС‹РІР°РµРј РµРµ РІ РґРµС„РѕР»С‚
 
 	glDisable(GL_LIGHTING);
 
 
 
-	GuiTextRectangle rec;		   //классик моего авторства для удобной работы с рендером текста.
+	GuiTextRectangle rec;		   //РєР»Р°СЃСЃРёРє РјРѕРµРіРѕ Р°РІС‚РѕСЂСЃС‚РІР° РґР»СЏ СѓРґРѕР±РЅРѕР№ СЂР°Р±РѕС‚С‹ СЃ СЂРµРЅРґРµСЂРѕРј С‚РµРєСЃС‚Р°.
 	rec.setSize(300, 150);
 	rec.setPosition(10, ogl->getHeight() - 150 - 10);
 
 
 	std::stringstream ss;
-	ss << "T - вкл/выкл текстур" << std::endl;
-	ss << "L - вкл/выкл освещение" << std::endl;
-	ss << "F - Свет из камеры" << std::endl;
-	ss << "G - двигать свет по горизонтали" << std::endl;
-	ss << "G+ЛКМ двигать свет по вертекали" << std::endl;
-	ss << "Коорд. света: (" << light.pos.X() << ", " << light.pos.Y() << ", " << light.pos.Z() << ")" << std::endl;
-	ss << "Коорд. камеры: (" << camera.pos.X() << ", " << camera.pos.Y() << ", " << camera.pos.Z() << ")" << std::endl;
-	ss << "Параметры камеры: R="  << camera.camDist << ", fi1=" << camera.fi1 << ", fi2=" << camera.fi2 << std::endl;
+	ss << "T - РІРєР»/РІС‹РєР» С‚РµРєСЃС‚СѓСЂ" << std::endl;
+	ss << "L - РІРєР»/РІС‹РєР» РѕСЃРІРµС‰РµРЅРёРµ" << std::endl;
+	ss << "F - РЎРІРµС‚ РёР· РєР°РјРµСЂС‹" << std::endl;
+	ss << "G - РґРІРёРіР°С‚СЊ СЃРІРµС‚ РїРѕ РіРѕСЂРёР·РѕРЅС‚Р°Р»Рё" << std::endl;
+	ss << "G+Р›РљРњ РґРІРёРіР°С‚СЊ СЃРІРµС‚ РїРѕ РІРµСЂС‚РµРєР°Р»Рё" << std::endl;
+	ss << "РљРѕРѕСЂРґ. СЃРІРµС‚Р°: (" << light.pos.X() << ", " << light.pos.Y() << ", " << light.pos.Z() << ")" << std::endl;
+	ss << "РљРѕРѕСЂРґ. РєР°РјРµСЂС‹: (" << camera.pos.X() << ", " << camera.pos.Y() << ", " << camera.pos.Z() << ")" << std::endl;
+	ss << "РџР°СЂР°РјРµС‚СЂС‹ РєР°РјРµСЂС‹: R="  << camera.camDist << ", fi1=" << camera.fi1 << ", fi2=" << camera.fi2 << std::endl;
 	
 	rec.setText(ss.str().c_str());
 	rec.Draw();
 
-	glMatrixMode(GL_PROJECTION);	  //восстанавливаем матрицы проекции и модел-вью обратьно из стека.
+	glMatrixMode(GL_PROJECTION);	  //РІРѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј РјР°С‚СЂРёС†С‹ РїСЂРѕРµРєС†РёРё Рё РјРѕРґРµР»-РІСЊСЋ РѕР±СЂР°С‚СЊРЅРѕ РёР· СЃС‚РµРєР°.
 	glPopMatrix();
 
 
