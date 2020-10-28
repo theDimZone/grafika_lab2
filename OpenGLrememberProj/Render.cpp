@@ -474,6 +474,7 @@ void PolyFigureOuter() {
 		y = radius * sin(i);
 
 		glNormal3d(x, y, 0); // вроде норм
+
 		glVertex3d(centre_x + x, centre_y + y, 3);
 		glVertex3d(centre_x + x, centre_y + y, 1);
 	}
@@ -493,8 +494,11 @@ void TriFanOuter(std::string type) {
 	double x = 0;
 	double y = 0;
 
+	glBindTexture(GL_TEXTURE_2D, texId);
+
 	glBegin(GL_TRIANGLE_FAN);
 	glColor3d(0.2, 0.7, 0.7);
+	//glTexCoord2d(0, 1);
 
 	//glVertex3d(centre_x, centre_y, centre_z);
 
@@ -503,8 +507,12 @@ void TriFanOuter(std::string type) {
 		y = radius * sin(i);
 
 		glNormal3d(0, 0, type == "upper" ? 1 : -1);
+		//if (i == (PI - 0.52) / 2 == i) glTexCoord2d(0.5, 0);
+		//if (PI - 0.25 == i + 0.001) glTexCoord2d(1, 1);
+		glTexCoord2d(x / PI - 0.25, y / PI - 0.25);
 		glVertex3d(centre_x + x, centre_y + y, centre_z);
 	}
+
 	glEnd();
 }
 
@@ -559,6 +567,7 @@ void Render(OpenGL *ogl)
 	TriFanInner("upper");
 	TriFanInner("bottom");
 	PolyFigureInner();
+
 	Figure();
 
 
