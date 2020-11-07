@@ -380,22 +380,33 @@ void Figure() {
 	//glVertex3d(8, 7, 3);
 
 	glNormal3d(0, 0, 1);
+	glTexCoord2d(8, 7);
 	glVertex3d(8, 7, 3);
+	glTexCoord2d(3, 1);
 	glVertex3d(3, 1, 3);
+	glTexCoord2d(4, 8);
 	glVertex3d(4, 8, 3);
 
 	glNormal3d(0, 0, 1);
+	glTexCoord2d(4, 8);
 	glVertex3d(4, 8, 3);
+	glTexCoord2d(-1, 5);
 	glVertex3d(-1, 5, 3);
+	glTexCoord2d(3, 11);
 	glVertex3d(3, 11, 3);
 	glEnd();
 	glBegin(GL_POLYGON);
 
 	glNormal3d(0, 0, 1);
+	glTexCoord2d(14, 8);
 	glVertex3d(14, 8, 3);
+	glTexCoord2d(8, 7);
 	glVertex3d(8, 7, 3);
+	glTexCoord2d(4, 8);
 	glVertex3d(4, 8, 3);
+	glTexCoord2d(3, 11);
 	glVertex3d(3, 11, 3);
+	glTexCoord2d(14, 8);
 	glVertex3d(14, 8, 3);
 	glEnd();
 }
@@ -415,6 +426,8 @@ void TriFanInner(std::string type) {
 	glColor3d(0.2, 0.7, 0.7);
 
 	glNormal3d(0, 0, type == "upper" ? 1 : -1);
+
+	if (type == "upper") glTexCoord2d(centre_x, centre_y);
 	glVertex3d(centre_x, centre_y, centre_z);
 
 	for (float i = 1.595; i <= PI * 2 - 2.95; i += 0.001) {
@@ -423,10 +436,44 @@ void TriFanInner(std::string type) {
 
 		glNormal3d(0, 0, type == "upper" ? 1 : -1);
 		//glVertex3d(centre_x + x + 7.1, centre_y + y - 3.2, centre_z);
+		if(type == "upper") glTexCoord2d(x + 14.1, y + 3.81);
 		glVertex3d(x + 14.1, y + 3.81, centre_z);
 	}
+	glVertex3d(10, 3, centre_z);
 	glEnd();
 }
+
+void TriFanOuter(std::string type) {
+	double centre_x = 8.5;
+	double centre_y = 9.5;
+	double centre_z = type == "upper" ? 3 : 1;
+
+	double radius = 5.7;
+
+	double x = 0;
+	double y = 0;
+
+	glBegin(GL_TRIANGLE_FAN);
+	glColor3d(0.2, 0.7, 0.7);
+	//glTexCoord2d(0, 1);
+
+	//glVertex3d(centre_x, centre_y, centre_z);
+
+	for (float i = -0.27; i <= PI - 0.25; i += 0.001) {
+		x = radius * cos(i);
+		y = radius * sin(i);
+
+		glNormal3d(0, 0, type == "upper" ? 1 : -1);
+		//if (i == (PI - 0.52) / 2 == i) glTexCoord2d(0.5, 0);
+		//if (PI - 0.25 == i + 0.001) glTexCoord2d(1, 1);
+		//glTexCoord2d(x / PI - 0.25, y / PI - 0.25);
+		if (type == "upper") glTexCoord2d(centre_x + x, centre_y + y);
+		glVertex3d(centre_x + x, centre_y + y, centre_z);
+	}
+
+	glEnd();
+}
+
 
 void PolyFigureInner() {
 	double centre_x = 8;
@@ -451,6 +498,8 @@ void PolyFigureInner() {
 		glVertex3d(x + 14.1, y + 3.81, 3);
 		glVertex3d(x + 14.1, y + 3.81, 1);
 	}
+	glVertex3d(10, 3, 3);
+	glVertex3d(10, 3, 1);
 	glEnd();
 }
 
@@ -480,40 +529,6 @@ void PolyFigureOuter() {
 	}
 	glEnd();
 
-}
-
-
-
-void TriFanOuter(std::string type) {
-	double centre_x = 8.5;
-	double centre_y = 9.5;
-	double centre_z = type == "upper" ? 3 : 1;
-
-	double radius = 5.7;
-
-	double x = 0;
-	double y = 0;
-
-	glBindTexture(GL_TEXTURE_2D, texId);
-
-	glBegin(GL_TRIANGLE_FAN);
-	glColor3d(0.2, 0.7, 0.7);
-	//glTexCoord2d(0, 1);
-
-	//glVertex3d(centre_x, centre_y, centre_z);
-
-	for (float i = -0.27; i <= PI - 0.25; i += 0.001) {
-		x = radius * cos(i);
-		y = radius * sin(i);
-
-		glNormal3d(0, 0, type == "upper" ? 1 : -1);
-		//if (i == (PI - 0.52) / 2 == i) glTexCoord2d(0.5, 0);
-		//if (PI - 0.25 == i + 0.001) glTexCoord2d(1, 1);
-		glTexCoord2d(x / PI - 0.25, y / PI - 0.25);
-		glVertex3d(centre_x + x, centre_y + y, centre_z);
-	}
-
-	glEnd();
 }
 
 
@@ -559,6 +574,7 @@ void Render(OpenGL *ogl)
 	glShadeModel(GL_SMOOTH);
 	//===================================
 	//Прогать тут  
+	glBindTexture(GL_TEXTURE_2D, texId);
 
 	TriFanOuter("upper");
 	TriFanOuter("bottom");
