@@ -230,7 +230,7 @@ void keyUpEvent(OpenGL *ogl, int key)
 
 
 GLuint texId;
-
+GLuint texId2;
 //выполняется перед первым рендером
 void initRender(OpenGL *ogl)
 {
@@ -255,19 +255,34 @@ void initRender(OpenGL *ogl)
 	OpenGL::LoadBMP("texture.bmp", &texW, &texH, &texarray);
 	OpenGL::RGBtoChar(texarray, texW, texH, &texCharArray);
 
-	
-	
 	//генерируем ИД для текстуры
 	glGenTextures(1, &texId);
 	//биндим айдишник, все что будет происходить с текстурой, будте происходить по этому ИД
 	glBindTexture(GL_TEXTURE_2D, texId);
-
 	//загружаем текстуру в видеопямять, в оперативке нам больше  она не нужна
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texW, texH, 0, GL_RGBA, GL_UNSIGNED_BYTE, texCharArray);
-
 	//отчистка памяти
 	free(texCharArray);
 	free(texarray);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+	//glBindTexture(GL_TEXTURE_2D, 0);
+
+
+	RGBTRIPLE *texarray2;
+	char *texCharArray2;
+	int texW2, texH2;
+	OpenGL::LoadBMP("texture2.bmp", &texW2, &texH2, &texarray2);
+	OpenGL::RGBtoChar(texarray2, texW2, texH2, &texCharArray2);
+	glGenTextures(1, &texId2);
+	glBindTexture(GL_TEXTURE_2D, texId2);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texW2, texH2, 0, GL_RGBA, GL_UNSIGNED_BYTE, texCharArray2);
+	free(texCharArray2);
+	free(texarray2);
 
 	//наводим шмон
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -302,35 +317,7 @@ void initRender(OpenGL *ogl)
 	camera.fi2 = 0.8;
 }
 
-
-void Figure() {
-	// äíî
-	glBegin(GL_TRIANGLES);
-	glColor3d(0.2, 0.7, 0.7);
-
-	//glVertex3d(14, 8, 1);
-	//glVertex3d(10, 3, 1);
-	//glVertex3d(8, 7, 1);
-	glNormal3d(0, 0, -1);
-	glVertex3d(8, 7, 1);
-	glVertex3d(3, 1, 1);
-	glVertex3d(4, 8, 1);
-
-	glNormal3d(0, 0, -1);
-	glVertex3d(4, 8, 1);
-	glVertex3d(-1, 5, 1);
-	glVertex3d(3, 11, 1);
-	glEnd();
-	glBegin(GL_POLYGON);
-	glNormal3d(0, 0, -1);
-
-	glVertex3d(14, 8, 1);
-	glVertex3d(8, 7, 1);
-	glVertex3d(4, 8, 1);
-	glVertex3d(3, 11, 1);
-	glVertex3d(14, 8, 1);
-	glEnd();
-
+void PolyFigure() {
 	// ðåáðà
 	glBegin(GL_QUAD_STRIP);
 	glColor3d(0.1, 0.2, 0.9);
@@ -370,6 +357,11 @@ void Figure() {
 	//glVertex3d(14, 8, 1);
 	//glVertex3d(14, 8, 3);
 	glEnd();
+}
+
+void Cap(std::string type) {
+	double z = type == "upper" ? 3 : 1;
+	double normal_z = type == "upper" ? 1 : -1;
 
 	// êðûøà
 	glBegin(GL_TRIANGLES);
@@ -379,38 +371,37 @@ void Figure() {
 	//glVertex3d(10, 3, 3);
 	//glVertex3d(8, 7, 3);
 
-	glNormal3d(0, 0, 1);
+	glNormal3d(0, 0, normal_z);
 	glTexCoord2d(8, 7);
-	glVertex3d(8, 7, 3);
+	glVertex3d(8, 7, z);
 	glTexCoord2d(3, 1);
-	glVertex3d(3, 1, 3);
+	glVertex3d(3, 1, z);
 	glTexCoord2d(4, 8);
-	glVertex3d(4, 8, 3);
+	glVertex3d(4, 8, z);
 
-	glNormal3d(0, 0, 1);
+	glNormal3d(0, 0, normal_z);
 	glTexCoord2d(4, 8);
-	glVertex3d(4, 8, 3);
+	glVertex3d(4, 8, z);
 	glTexCoord2d(-1, 5);
-	glVertex3d(-1, 5, 3);
+	glVertex3d(-1, 5, z);
 	glTexCoord2d(3, 11);
-	glVertex3d(3, 11, 3);
+	glVertex3d(3, 11, z);
 	glEnd();
 	glBegin(GL_POLYGON);
 
-	glNormal3d(0, 0, 1);
+	glNormal3d(0, 0, normal_z);
 	glTexCoord2d(14, 8);
-	glVertex3d(14, 8, 3);
+	glVertex3d(14, 8, z);
 	glTexCoord2d(8, 7);
-	glVertex3d(8, 7, 3);
+	glVertex3d(8, 7, z);
 	glTexCoord2d(4, 8);
-	glVertex3d(4, 8, 3);
+	glVertex3d(4, 8, z);
 	glTexCoord2d(3, 11);
-	glVertex3d(3, 11, 3);
+	glVertex3d(3, 11, z);
 	glTexCoord2d(14, 8);
-	glVertex3d(14, 8, 3);
+	glVertex3d(14, 8, z);
 	glEnd();
 }
-
 
 void TriFanInner(std::string type) {
 	double centre_x = 8;
@@ -427,7 +418,7 @@ void TriFanInner(std::string type) {
 
 	glNormal3d(0, 0, type == "upper" ? 1 : -1);
 
-	if (type == "upper") glTexCoord2d(centre_x, centre_y);
+	glTexCoord2d(centre_x, centre_y);
 	glVertex3d(centre_x, centre_y, centre_z);
 
 	for (float i = 1.595; i <= PI * 2 - 2.95; i += 0.001) {
@@ -436,7 +427,7 @@ void TriFanInner(std::string type) {
 
 		glNormal3d(0, 0, type == "upper" ? 1 : -1);
 		//glVertex3d(centre_x + x + 7.1, centre_y + y - 3.2, centre_z);
-		if(type == "upper") glTexCoord2d(x + 14.1, y + 3.81);
+		glTexCoord2d(x + 14.1, y + 3.81);
 		glVertex3d(x + 14.1, y + 3.81, centre_z);
 	}
 	glVertex3d(10, 3, centre_z);
@@ -467,7 +458,7 @@ void TriFanOuter(std::string type) {
 		//if (i == (PI - 0.52) / 2 == i) glTexCoord2d(0.5, 0);
 		//if (PI - 0.25 == i + 0.001) glTexCoord2d(1, 1);
 		//glTexCoord2d(x / PI - 0.25, y / PI - 0.25);
-		if (type == "upper") glTexCoord2d(centre_x + x, centre_y + y);
+		glTexCoord2d(centre_x + x, centre_y + y);
 		glVertex3d(centre_x + x, centre_y + y, centre_z);
 	}
 
@@ -536,8 +527,6 @@ void PolyFigureOuter() {
 void Render(OpenGL *ogl)
 {
 
-
-
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);
 
@@ -574,44 +563,20 @@ void Render(OpenGL *ogl)
 	glShadeModel(GL_SMOOTH);
 	//===================================
 	//Прогать тут  
-	glBindTexture(GL_TEXTURE_2D, texId);
 
+	glBindTexture(GL_TEXTURE_2D, texId);
 	TriFanOuter("upper");
-	TriFanOuter("bottom");
-	PolyFigureOuter();
-
 	TriFanInner("upper");
+	Cap("upper");
+
+	glBindTexture(GL_TEXTURE_2D, texId2);
+	TriFanOuter("bottom");
 	TriFanInner("bottom");
+	Cap("bottom");
+
+	PolyFigureOuter();
 	PolyFigureInner();
-
-	Figure();
-
-
-	//Начало рисования квадратика станкина
-	/*
-	double A[2] = { -4, -4 };
-	double B[2] = { 4, -4 };
-	double C[2] = { 4, 4 };
-	double D[2] = { -4, 4 };
-
-	glBindTexture(GL_TEXTURE_2D, texId);
-
-	glColor3d(0.6, 0.6, 0.6);
-	glBegin(GL_QUADS);
-
-	glNormal3d(0, 0, 1);
-	glTexCoord2d(0, 0);
-	glVertex2dv(A);
-	glTexCoord2d(1, 0);
-	glVertex2dv(B);
-	glTexCoord2d(1, 1);
-	glVertex2dv(C);
-	glTexCoord2d(0, 1);
-	glVertex2dv(D);
-
-	glEnd();
-	*/
-	//конец рисования квадратика станкина
+	PolyFigure();
 
 
    //Сообщение вверху экрана
