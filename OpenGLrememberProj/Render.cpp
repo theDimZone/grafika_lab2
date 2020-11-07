@@ -270,8 +270,6 @@ void initRender(OpenGL *ogl)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
-	//glBindTexture(GL_TEXTURE_2D, 0);
-
 
 	RGBTRIPLE *texarray2;
 	char *texCharArray2;
@@ -322,9 +320,6 @@ void PolyFigure() {
 	glBegin(GL_QUAD_STRIP);
 	glColor3d(0.1, 0.2, 0.9);
 
-	//glVertex3d(14, 8, 1);
-	//glVertex3d(14, 8, 3);
-
 	glNormal3d(-1, -0.5, 0);
 	glVertex3d(10, 3, 1);
 	glVertex3d(10, 3, 3);
@@ -354,8 +349,6 @@ void PolyFigure() {
 	glVertex3d(-1, 5, 3);
 	glVertex3d(3, 11, 1);
 	glVertex3d(3, 11, 3);
-	//glVertex3d(14, 8, 1);
-	//glVertex3d(14, 8, 3);
 	glEnd();
 }
 
@@ -366,10 +359,6 @@ void Cap(std::string type) {
 	// êðûøà
 	glBegin(GL_TRIANGLES);
 	glColor3d(0.2, 0.7, 0.7);
-
-	//glVertex3d(14, 8, 3);
-	//glVertex3d(10, 3, 3);
-	//glVertex3d(8, 7, 3);
 
 	glNormal3d(0, 0, normal_z);
 	glTexCoord2d(8, 7);
@@ -426,7 +415,6 @@ void TriFanInner(std::string type) {
 		y = radius * sin(i);
 
 		glNormal3d(0, 0, type == "upper" ? 1 : -1);
-		//glVertex3d(centre_x + x + 7.1, centre_y + y - 3.2, centre_z);
 		glTexCoord2d(x + 14.1, y + 3.81);
 		glVertex3d(x + 14.1, y + 3.81, centre_z);
 	}
@@ -446,18 +434,12 @@ void TriFanOuter(std::string type) {
 
 	glBegin(GL_TRIANGLE_FAN);
 	glColor3d(0.2, 0.7, 0.7);
-	//glTexCoord2d(0, 1);
-
-	//glVertex3d(centre_x, centre_y, centre_z);
 
 	for (float i = -0.27; i <= PI - 0.25; i += 0.001) {
 		x = radius * cos(i);
 		y = radius * sin(i);
 
 		glNormal3d(0, 0, type == "upper" ? 1 : -1);
-		//if (i == (PI - 0.52) / 2 == i) glTexCoord2d(0.5, 0);
-		//if (PI - 0.25 == i + 0.001) glTexCoord2d(1, 1);
-		//glTexCoord2d(x / PI - 0.25, y / PI - 0.25);
 		glTexCoord2d(centre_x + x, centre_y + y);
 		glVertex3d(centre_x + x, centre_y + y, centre_z);
 	}
@@ -484,8 +466,7 @@ void PolyFigureInner() {
 		x = radius * cos(i);
 		y = radius * sin(i);
 
-		glNormal3d(-x, -y, 0); // вроде норм
-		//glVertex3d(centre_x + x + 7.1, centre_y + y - 3.2, centre_z);
+		glNormal3d(-x, -y, 0); 
 		glVertex3d(x + 14.1, y + 3.81, 3);
 		glVertex3d(x + 14.1, y + 3.81, 1);
 	}
@@ -506,14 +487,12 @@ void PolyFigureOuter() {
 
 	glBegin(GL_QUAD_STRIP);
 	glColor3d(0.1, 0.2, 0.9);
-	//glVertex3d(14, 8, 3);
-	//glVertex3d(14, 8, 1);
 
 	for (float i = -0.27; i <= PI - 0.25; i += 0.001) {
 		x = radius * cos(i);
 		y = radius * sin(i);
 
-		glNormal3d(x, y, 0); // вроде норм
+		glNormal3d(x, y, 0);
 
 		glVertex3d(centre_x + x, centre_y + y, 3);
 		glVertex3d(centre_x + x, centre_y + y, 1);
